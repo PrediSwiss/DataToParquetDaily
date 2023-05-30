@@ -47,7 +47,7 @@ jobs:
           name: 'to_parquet_daily'
           runtime: 'python311'
           memory_mb: '512'
-          timeout: '900'
+          timeout: '540'
           event_trigger_type: "google.pubsub.topic.publish"
           event_trigger_resource: "projects/${{secrets.PROJECT_ID}}/topics/${{secrets.TOPIC_ID}}"
           event_trigger_service: "pubsub.googleapis.com"
