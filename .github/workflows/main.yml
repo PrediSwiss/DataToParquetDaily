@@ -39,7 +39,7 @@ jobs:
           pytest tests.py
           
       - name: Create scheduler
-        run: gcloud scheduler jobs create pubsub PrediSwissScheduleDay --location="us-east1" --schedule="*/1 * * * *" --topic="projects/${{secrets.PROJECT_ID}}/topics/${{secrets.TOPIC_ID}}" --message-body "raw to parquet daily"
+        run: gcloud scheduler jobs create pubsub PrediSwissScheduleDay --location="us-east1" --schedule="0 0 * * *" --topic="projects/${{secrets.PROJECT_ID}}/topics/${{secrets.TOPIC_ID}}" --message-body "raw to parquet daily"
 
       - name: Deploy the function
         uses: 'google-github-actions/deploy-cloud-functions@v1'
@@ -47,6 +47,7 @@ jobs:
           name: 'to_parquet_daily'
           runtime: 'python311'
           memory_mb: '512'
+          timeout: '900'
           event_trigger_type: "google.pubsub.topic.publish"
           event_trigger_resource: "projects/${{secrets.PROJECT_ID}}/topics/${{secrets.TOPIC_ID}}"
           event_trigger_service: "pubsub.googleapis.com"
